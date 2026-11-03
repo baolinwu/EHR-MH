@@ -18,11 +18,11 @@ MH.FP <- function(ctK, b0=0, alpha=0.05){
   X1 = model.matrix(fit1)
   bhat = coef(fit1)
   ## accurate computation of log(1 + e^x)
-  softplus = function(x) pmax(x, 0) + log1p(exp(-abs(x)))
+  L1e = function(x) pmax(x, 0) + log1p(exp(-abs(x)))
   lfn = function(bta) {
     eta = drop(X1 %*% bta)
     p  = plogis(eta)
-    ll = sum(N1 * eta - N * softplus(eta))
+    ll = sum(N1 * eta - N * L1e(eta))
     jp = 0.5*determinant(crossprod(X1, X1*(N*p*(1-p))), logarithm=TRUE)$modulus
     ans = ll+jp
     return(ans)
