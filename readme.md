@@ -1,15 +1,20 @@
 # MH-FP
  - Estimation of odds ratio across K 2x2 tables with sparse counts
+ - Reference
+   - Wu et. al (2026) Assessing risk factors for rare clinical events from summary-level electronic health records: a confounder-adjusted approach. tech rep.
  - Sample R codes
 ```R
  library(brglm2)
  ## analyze the "sample proctectomy" data
  dat1 = read.table('MortalityCount.txt', header=TRUE)
  dat1$XMale = 1- dat1$XFemale
+ ## regular logit model
  lr = glm(cbind(Y1,Y0) ~ GS+Age1+Age2+RaceBlack+RaceWhite+XMale, family=binomial(logit), data=dat1)
  summary(lr)
+ ## logistic regression with Firth penalization
  flr = glm(cbind(Y1,Y0) ~ GS+Age1+Age2+RaceBlack+RaceWhite+XMale, family=binomial(logit), method="brglmFit", data=dat1)
  summary(flr)
+ ## Mantel-Haenszel estimator with Firth penalization
  ## 2x2x30 contingency table
  tbi = array(0, dim=c(2,2,30))
  for(k in 1:30){
@@ -18,14 +23,15 @@
  }    
  mantelhaen.test(tbi)
  mantelhaen.test(tbi, exact=TRUE)
- mantelhaen.test(tbi, correct=FALSE)
  MH.FP(tbi)
  ##
  j1 = which(tbi[1,1,] + tbi[2,1,]>0);  length(j1)
  MH.FP(tbi[,,j1])
  
  ## load the simulation scenario 4 data: 
-  ## X is the main exposure of interest; covariates: Xage, Xage2, RaceBlack, RaceWhite, Xsex
+  ## X: main exposure of interest; covariates: Xage, Xage2, RaceBlack, RaceWhite, Xsex
+  ## NN: strata specific total counts (sample size)
+  ## prob0, prob1, prob2: strata specific event probabilities (corresponding to log OR: 0, 0.4, 0.8)
  load('data_sc4.rda')
  K = dim(data_sc4)[1]
  ## simulate events under null of OR=1
@@ -45,6 +51,5 @@
  }    
  mantelhaen.test(tbi)
  mantelhaen.test(tbi, exact=TRUE)
- mantelhaen.test(tbi, correct=FALSE)
  MH.FP(tbi)
 ```
