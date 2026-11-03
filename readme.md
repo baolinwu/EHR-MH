@@ -1,5 +1,5 @@
 # MH-FP
- - Estimation of odds ratio across K 2x2 tables with sparse counts
+ - Estimating Risk Factor Odds Ratios for Rare Events from Stratified EHR Summary Data
  - Reference
    - Wu et. al (2026) Assessing risk factors for rare clinical events from summary-level electronic health records: a confounder-adjusted approach. tech rep.
  - Sample R codes
