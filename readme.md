@@ -35,6 +35,7 @@
   ## NN: strata specific total counts (sample size)
   ## prob0, prob1, prob2: strata specific event probabilities (corresponding to log OR: 0, 0.4, 0.8)
  load('data_sc4.rda')
+ ## load other scenarios: load('data_sc1.rda'); load('data_sc2.rda'); load('data_sc3.rda')
  K = dim(data_sc4)[1]
  ## simulate events under null of OR=1
  Y = rbinom(K, data_sc4$NN,data_sc4$prb0)
