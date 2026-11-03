@@ -5,7 +5,7 @@
  - Sample R codes
 ```R
  library(brglm2)
- ## analyze the "sample proctectomy" data
+ ## analyze the "sample/perturbed proctectomy data"
  dat1 = read.table('MortalityCount.txt', header=TRUE)
  dat1$XMale = 1- dat1$XFemale
  ## regular logit model
@@ -24,6 +24,7 @@
  mantelhaen.test(tbi)
  mantelhaen.test(tbi, exact=TRUE)
  MH.FP(tbi)
+ MH.FP(tbi, b0=0.5) ## test H_0: \beta=0.5
  ##
  j1 = which(tbi[1,1,] + tbi[2,1,]>0);  length(j1)
  MH.FP(tbi[,,j1])
