@@ -4,7 +4,7 @@ library(brglm2)
 #' @param ctK 2x2xK contingency table
 #' @param b0 null value of log OR, default to 0
 #' @param alpha significance level, default to 0.05
-#' @return a list with: bhat (log OR estimator); se (standard error);  p.val (penalized LRT test and Wald test); ci (confidence interval)
+#' @return a list with: bhat (log OR estimator); se (standard error);  p.val (penalized LRT test and Wald test); ci (confidence interval for log OR)
 MH.FP <- function(ctK, b0=0, alpha=0.05){
   K = dim(ctK)[3]
   X = rep(1:0, K)
