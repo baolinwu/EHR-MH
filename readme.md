@@ -25,7 +25,7 @@
  mantelhaen.test(tbi, exact=TRUE)
  MH.FP(tbi)
  MH.FP(tbi, b0=0.5) ## test H_0: \beta=0.5
- ##
+ ## only analyze those strata with >0 events
  j1 = which(tbi[1,1,] + tbi[2,1,]>0);  length(j1)
  MH.FP(tbi[,,j1])
  
