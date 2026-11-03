@@ -30,6 +30,7 @@
  
  ## load the simulation scenario 4 data: 
   ## X: main exposure of interest; covariates: Xage, Xage2, RaceBlack, RaceWhite, Xsex
+  ## S: covariate strata id (1--30)
   ## NN: strata specific total counts (sample size)
   ## prob0, prob1, prob2: strata specific event probabilities (corresponding to log OR: 0, 0.4, 0.8)
  load('data_sc4.rda')
@@ -52,4 +53,7 @@
  mantelhaen.test(tbi)
  mantelhaen.test(tbi, exact=TRUE)
  MH.FP(tbi)
+ ## check OR
+ data_sc4$prb2[2*(1:30)]/(1-data_sc4$prb2[2*(1:30)])/(data_sc4$prb2[2*(1:30)-1]/(1-data_sc4$prb2[2*(1:30)-1])) ## OR
+ data_sc4$prb2[2*(1:30)]/data_sc4$prb2[2*(1:30)-1] ## RR ~ OR
 ```
