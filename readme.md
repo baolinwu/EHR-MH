@@ -55,6 +55,7 @@ MH.FP(tbi[, , apply(tbi[, 1, ], 2, sum) > 0])
   ## NN: strata specific total counts (sample size)
   ## prob0, prob1, prob2: strata specific event probabilities (corresponding to log OR: 0, 0.4, 0.8)
 load('data_sc4.rda')
+## load(url('https://github.com/baolinwu/EHR-MH/blob/main/data_sc4.rda?raw=true'))
 ## load other scenarios: load('data_sc1.rda'); load('data_sc2.rda'); load('data_sc3.rda')
  K = dim(data_sc4)[1]
  ## simulate events under null of OR=1
@@ -64,8 +65,14 @@ load('data_sc4.rda')
  ## simulate events under log OR = 0.8
  Y = rbinom(K, data_sc4$NN,data_sc4$prb2)
  dati = data.frame(data_sc4,Y1=Y,Y0=data_sc4$NN-Y)
+ ##
  flr = glm(cbind(Y1,Y0) ~ X+Xage+Xage2+RaceBlack+RaceWhite+Xsex, family=binomial(logit), method="brglmFit", data=dati)
  summary(flr)
+ ##
+ dati2 = rbind(transform(dati, y = 1, w = Y1), transform(dati, y = 0, w = Y0))
+ dati2 = dati2[dati2$w > 0, ]
+ flr.pl = logistf(y ~ X+Xage+Xage2+RaceBlack+RaceWhite+Xsex, data = dati2, weights = w)
+ summary(flr.pl)
 ## 2x2x30 contingency table
  tbi = array(0, dim=c(2,2,30))
  for(k in 1:30){
